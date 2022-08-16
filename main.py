@@ -13,7 +13,7 @@ async def check(bot):
         with open('height.json', 'r') as f:
             data = json.load(f)
         for height in data:
-            if int(height) >= block_height:
+            if int(height) <= block_height:
                 for user in data[height]:
                     owner = await bot.fetch_user(user)
                     await owner.send('New block height ' + str(block_height))
@@ -45,9 +45,6 @@ def get_block_height():
 @bot.command(pass_context=True)
 async def record(ctx, height):
     # check if hight is the same as the current block height
-    if int(height) < get_block_height():
-        await ctx.send('This block was mined')
-        return
     # height.json create "height" key and create empty list
     with open('height.json', 'r') as f:
         data = json.load(f)
